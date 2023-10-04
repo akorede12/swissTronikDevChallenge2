@@ -1,4 +1,4 @@
-const { ethers } = require("hardhat");
+const { ethers } = require("ethers");
 
 async function getStorageValue() {
   // Replace the following with your actual contract address and provider URL
@@ -11,16 +11,30 @@ async function getStorageValue() {
   // The slot number (0 for the first slot)
   const slotNumber = 0;
 
+  const number = ethers.Block.number;
+
   try {
     // Get the storage value at the specified slot
-    const storageValue = await provider.send("eth_getStorageAt", [
+    const storageValue = await provider.getStorage(
       contractAddress,
       slotNumber,
-    ]);
+      number
+    );
     console.log(`Value at slot ${slotNumber}: ${storageValue}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);
   }
+
+  // try {
+  //   // Get the storage value at the specified slot
+  //   const storageValue = await provider.send("eth_getStorageAt", [
+  //     contractAddress,
+  //     slotNumber,
+  //   ]);
+  //   console.log(`Value at slot ${slotNumber}: ${storageValue}`);
+  // } catch (error) {
+  //   console.error(`Error: ${error.message}`);
+  // }
 }
 
 getStorageValue();
